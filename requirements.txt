@@ -1,1 +1,3 @@
-
+mcp[ws]
+youtube-transcript-api
+uvicorn
