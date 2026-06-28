@@ -1,9 +1,9 @@
 import os
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from youtube_transcript_api import YouTubeTranscriptApi
 from urllib.parse import urlparse, parse_qs
 
-# 1. FIXED: Keep initialization simple with just the server name
+# Initialize the server
 mcp = FastMCP("YouTube Reader")
 
 @mcp.tool()
@@ -28,8 +28,8 @@ def get_video_transcript(video_url: str) -> str:
         return f"Could not fetch transcript: {str(e)}"
 
 if __name__ == "__main__":
-    # Get port from environment or default to 8000
+    # Render automatically tells us what port to use via this environment variable
     port = int(os.environ.get("PORT", 8000))
     
-    # 2. FIXED: Transport strategy belongs down here in the run method
-    mcp.run(transport="sse", host="0.0.0.0", port=port)
+    # Run using the new standard HTTP transport
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
