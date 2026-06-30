@@ -6,6 +6,13 @@ from urllib.parse import urlparse, parse_qs
 # Initialize the server
 mcp = FastMCP("YouTube Reader")
 
+from starlette.requests import Request
+from starlette.responses import PlainTextResponse
+
+@mcp.custom_route("/health", methods=["GET"])
+async def health_check(request: Request) -> PlainTextResponse:
+    return PlainTextResponse("OK")
+
 @mcp.tool()
 def get_video_transcript(video_url: str) -> str:
     """Extracts the text transcript from a YouTube video URL."""
