@@ -21,8 +21,10 @@ def get_video_transcript(video_url: str) -> str:
         if not video_id:
             return "Error: Could not find video ID."
 
-        transcript_list = YouTubeTranscriptApi.get_transcript(video_id, languages=['en'])
-        full_text = " ".join([item['text'] for item in transcript_list])
+        ytt_api = YouTubeTranscriptApi()
+        fetched_transcript = ytt_api.fetch(video_id, languages=['en'])
+        full_text = " ".join(snippet.text for snippet in fetched_transcript)
+
         return f"--- TRANSCRIPT FOR VIDEO {video_id} ---\n\n{full_text}"
     except Exception as e:
         return f"Could not fetch transcript: {str(e)}"
